@@ -1,219 +1,13 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111111">
-<title>Rafa Planner</title>
-<link rel="icon" type="image/png" href="icon.png?v=2">
-<link rel="apple-touch-icon" href="icon.png?v=2">
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#0b0b0d;color:#f5f5f5;font:14px system-ui,-apple-system,Segoe UI,sans-serif}
-button,input,select{font:inherit}
-button{cursor:pointer}
-header{height:64px;background:#111;border-bottom:1px solid #29292d;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:5}
-.logo{display:flex;align-items:center;gap:9px;font-weight:800}
-.logo b{background:#d71920;border-radius:9px;padding:10px;font-style:italic}
-.logo small{display:block;color:#e21b23;font-size:8px;letter-spacing:1.5px}
-main{max-width:900px;margin:auto;padding:18px 14px 92px}
-.top{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.top h1{font-size:23px;margin:0}
-.top p{color:#777;margin:3px 0 15px;font-size:12px}
-.redbtn{background:#d71920;color:#fff;border:0;border-radius:9px;padding:10px 13px;font-weight:700}
-.week{display:flex;align-items:center;justify-content:space-between;background:#151518;border:1px solid #29292d;border-radius:10px;padding:6px;margin-bottom:10px}
-.week button{background:transparent;border:0;color:#fff;padding:6px}
-.days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.day{background:#151518;border:1px solid #29292d;border-radius:11px;min-height:230px;padding:9px}
-.dayhead{display:flex;justify-content:space-between;border-bottom:1px solid #29292d;padding-bottom:8px;margin-bottom:2px}
-.dayhead b{color:#999;font-size:11px}
-.dayhead strong{font-size:19px}
-.class{display:flex;gap:6px;align-items:center;padding:9px 1px;border-bottom:1px solid #29292d}
-.time{color:#e52a31;font-size:11px;width:36px}
-.who{flex:1;min-width:0}
-.who b{display:block;font-size:13px}
-.who small{color:#777;font-size:9px}
-.icon{border:0;background:#29292d;color:#aaa;border-radius:7px;padding:6px 10px}
-.done{opacity:.45}
-.done .icon.ok{background:#17843b;color:#fff}
-.free{text-align:center;color:#555;padding:35px 0}
-.notice{margin-top:10px;background:#151518;border:1px solid #29292d;border-radius:10px;padding:10px;color:#999;font-size:11px;display:flex;justify-content:space-between;align-items:center}
-nav{position:fixed;bottom:0;left:0;right:0;height:65px;background:#111;border-top:1px solid #29292d;display:flex;justify-content:center;z-index:6}
-nav button{flex:1;max-width:180px;background:transparent;border:0;color:#777;font-size:11px;font-weight:600}
-nav button.active{color:#fff;background:#d71920;margin:7px;border-radius:8px}
-.list{display:grid;gap:8px}
-.card{background:#151518;border:1px solid #29292d;border-radius:11px;padding:13px;display:flex;align-items:center;gap:10px}
-.card .grow{flex:1}
-.card b{font-size:14px}
-.card small{display:block;color:#777;margin-top:3px}
-.tag{font-size:9px;border-radius:15px;padding:5px 7px;background:#29292d;color:#aaa}
-.tag.green{background:#164c2b;color:#8ee5a9}
-.tag.yellow{background:#493d18;color:#f1d477}
-.tag.red{background:#4b181b;color:#ff858b}
-.card-actions{display:flex;gap:6px;align-items:center}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-.stat-card{background:#151518;border:1px solid #29292d;border-radius:10px;padding:10px;text-align:center}
-.stat-card small{color:#777;display:block;font-size:10px}
-.stat-card strong{font-size:15px;margin-top:2px;display:block}
-.summary-box{background:#151518;border:1px solid #29292d;border-radius:10px;padding:10px;margin-bottom:10px}
-.summary-box h3{margin:0 0 8px 0;font-size:12px;color:#d71920;text-transform:uppercase;letter-spacing:0.5px}
-.summary-item{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #222;font-size:11px}
-.summary-item:last-child{border-bottom:0}
-.overlay{position:fixed;inset:0;background:#000c;display:none;align-items:flex-end;justify-content:center;z-index:20}
-.overlay.show{display:flex}
-.modal{background:#151518;border:1px solid #333;border-radius:16px 16px 0 0;width:min(600px,100%);padding:18px;max-height:90vh;overflow:auto}
-.modalhead{display:flex;justify-content:space-between}
-.modalhead button{background:none;border:0;color:#aaa}
-.modal input,.modal select{width:100%;padding:11px;background:#0e0e10;border:1px solid #37373b;color:#fff;border-radius:8px;margin-bottom:9px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.dayspick{display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 13px}
-.dayspick label{background:#29292d;border-radius:7px;padding:8px;color:#bbb}
-.dayspick input{width:auto;margin:0 4px 0 0}
-.save{width:100%;background:#d71920;color:#fff;border:0;border-radius:9px;padding:12px;font-weight:700}
-@media(max-width:700px){.days{grid-template-columns:1fr}.day{min-height:auto}.dayhead{position:sticky;top:64px;background:#151518;z-index:2}.top h1{font-size:21px}.week b{font-size:11px}}
-</style>
-</head>
-<body>
-<header><div class="logo"><b>RT</b><span>RAFA PLANNER<small>TREINO PERSONALIZADO</small></span></div></header>
-<main id="app"></main>
-<nav>
-<button id="navAgenda" onclick="show('agenda')">Agenda</button>
-<button id="navAlunos" onclick="show('alunos')">Alunos</button>
-<button id="navPag" onclick="show('pagamentos')">Pagamentos</button>
-<button id="navOutros" onclick="show('outros')">Outros</button>
-</nav>
-<div id="overlay" class="overlay"><div class="modal" id="modal"></div></div>
-<script>
-const K = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
-const N = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
-const today = new Date(); 
-today.setHours(0, 0, 0, 0);
-
-let data;
-try {
-  data = JSON.parse(localStorage.getItem('rafaPlanner') || 'null');
-} catch (e) {
-  data = null;
-}
-
-if (!data || typeof data !== 'object') {
-  data = {
-    students: [
-      { id: 1, name: 'Joao', plan: 8, used: 2, value: 190, due: '2026-09-10', days: ['seg', 'qua'], time: '06:00' },
-      { id: 2, name: 'Maria', plan: 8, used: 4, value: 190, due: '2026-09-05', days: ['ter', 'qui'], time: '07:00' }
-    ],
-    checks: {},
-    paid: {},
-    extras: []
-  };
-}
-
-if (!Array.isArray(data.students)) data.students = [];
-if (!data.checks || typeof data.checks !== 'object') data.checks = {};
-if (!data.paid || typeof data.paid !== 'object') data.paid = {};
-if (!Array.isArray(data.extras)) data.extras = [];
-
-data.students.forEach(s => {
-  s.used = typeof s.used === 'number' ? s.used : 0;
-  s.plan = typeof s.plan === 'number' ? s.plan : 0;
-  s.value = typeof s.value === 'number' ? s.value : 0;
-  s.days = Array.isArray(s.days) ? s.days : [];
-  s.due = s.due || '2026-09-10';
-  s.time = s.time || '08:00';
-});
-
-let view = 'agenda';
-let week = monday(today);
-
-function save() {
-  try {
-    localStorage.setItem('rafaPlanner', JSON.stringify(data));
-  } catch (e) {}
-}
-
-function monday(d) {
-  let x = new Date(d);
-  x.setDate(x.getDate() - ((x.getDay() + 6) % 7));
-  return x;
-}
-
-function iso(d) {
-  return d.toISOString().slice(0, 10);
-}
-
-function fmt(d) {
-  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-}
-
-function esc(s) {
-  return String(s || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
-}
-
-function days() {
-  return [1, 2, 3, 4, 5].map(i => {
-    let d = new Date(week);
-    d.setDate(d.getDate() + i);
-    return d;
-  });
-}
-
-function items(d) {
-  let key = K[d.getDay()];
-  let arr = [];
-  data.students.forEach(s => {
-    if (s.days.includes(key)) {
-      arr.push({
-        type: 'aula',
-        id: s.id + '-' + iso(d),
-        student: s,
-        time: s.time,
-        date: iso(d),
-        status: data.checks[s.id + '-' + iso(d)] || 'agendada'
-      });
-    }
-  });
-  data.extras.filter(e => e.date === iso(d)).forEach(e => arr.push(e));
-  return arr.sort((a, b) => a.time.localeCompare(b.time));
-}
-
-function show(v) {
-  view = v;
-  render();
-}
-
-function render() {
-  document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
-  const navEl = document.getElementById(view === 'agenda' ? 'navAgenda' : view === 'alunos' ? 'navAlunos' : view === 'pagamentos' ? 'navPag' : 'navOutros');
-  if (navEl) navEl.classList.add('active');
-  const app = document.getElementById('app');
-  if (view === 'agenda') renderAgenda(app);
-  else if (view === 'alunos') renderAlunos(app);
-  else if (view === 'pagamentos') renderPag(app);
-  else renderOutros(app);
-}
-
 function renderAgenda(a) {
   let ds = days();
   let summaryHtml = data.students.map(s => {
     let pending = Math.max(0, s.plan - s.used);
-    return <div class="summary-item"><span><b>${esc(s.name)}</b> (${s.plan} aulas)</span><span><span style="color:#8ee5a9;">OK: ${s.used}</span> | <span style="color:#ff858b;">Falta: ${pending}</span></span></div>;
-  }).join('');
-
-  let daysHtml = ds.map(d => {
-    let dayItems = items(d);
-    let itemsHtml = dayItems.map(item => {
-      if (item.type === 'extra') {
-        return <div class="class"><span class="time">${item.time}</span><div class="who"><b>${esc(item.title)}</b><small>Compromisso</small></div></div>;
-      }
-      return <div class="class ${item.status === 'realizada' ? 'done' : ''}"><span class="time">${item.time}</span><div class="who"><b>${esc(item.student.name)}</b><small>${item.status === 'realizada' ? 'Realizado' : 'Pendente'} (${item.student.used}/${item.student.plan})</small></div><button class="icon ok" onclick="toggle('${item.id}',${item.student.id})">OK</button><button class="icon" onclick="reschedule(${item.student.id},'${item.date}','${item.time}','${item.id}')">Adiar</button></div>;
-    }).join('') || '<div class="free">Livre</div>';
-
-    return <section class="day"><div class="dayhead"><b>${N[d.getDay()]}</b><strong>${d.getDate()}</strong></div>${itemsHtml}</section>;
+    return `<div class="summary-item"><span><b>${esc(s.name)}</b> (${s.plan} aulas)</span><span><span style="color:#8ee5a9;">OK: ${s.used}</span> | <span style="color:#ff858b;">Falta: ${pending}</span></span></div>`;   }).join('');    let daysHtml = ds.map(d => {     let dayItems = items(d);     let itemsHtml = dayItems.map(item => {       if (item.type === 'extra') {         return `<div class="class"><span class="time">${item.time}</span><div class="who"><b>${esc(item.title)}</b><small>Compromisso</small></div></div>`;       }       return `<div class="class ${item.status === 'realizada' ? 'done' : ''}"><span class="time">${item.time}</span><div class="who"><b>${esc(item.student.name)}</b><small>${item.status === 'realizada' ? 'Realizado' : 'Pendente'} (${item.student.used}/${item.student.plan})</small></div><button class="icon ok" onclick="toggle('${item.id}',${item.student.id})">OK</button><button class="icon" onclick="reschedule(${item.student.id},'${item.date}','${item.time}','${item.id}')">Adiar</button></div>`;     }).join('') \vert{}\vert{} '<div class="free">Livre</div>';      return `<section class="day"><div class="dayhead"><b>${N[d.getDay()]}</b><strong>${d.getDate()}</strong></div>${itemsHtml}</section>`;
   }).join('');
 
   a.innerHTML = `<div class="top"><div><h1>Minha agenda</h1><p>Acompanhe treinos pendentes e realizados.</p></div><button class="redbtn" onclick="openExtra()">+ Compromisso</button></div>
   <div class="summary-box"><h3>Situacao dos Pacotes</h3>${summaryHtml || '<small style="color:#777;">Nenhum aluno cadastrado.</small>'}</div>
-  <div class="week"><button onclick="moveWeek(-7)">&lt;</button><b>${fmt(ds[0])} — ${fmt(ds[4])}</b><button onclick="moveWeek(7)">&gt;</button></div>
+  <div class="week"><button onclick="moveWeek(-7)">&lt;</button><b>${fmt(ds[0])} —${fmt(ds[4])}</b><button onclick="moveWeek(7)">&gt;</button></div>
   <div class="days">${daysHtml}</div>
   <div class="notice"><span>Aula realizada: toque em OK.</span><button onclick="resetApp()" style="background:none;border:0;color:#ff858b;font-size:10px;text-decoration:underline;">Redefinir Dados</button></div>`;
 }
@@ -222,166 +16,29 @@ function renderAlunos(a) {
   let listHtml = data.students.map(s => {
     let daysStr = s.days.map(x => x.toUpperCase()).join(' / ');
     let pending = Math.max(0, s.plan - s.used);
-    return <div class="card"><div class="grow"><b>${esc(s.name)}</b><small>${daysStr} - ${s.time} - ${s.used} feitos / ${pending} faltam</small></div><span class="tag">${s.plan} aulas</span><div class="card-actions"><button class="icon" onclick="openAluno(${s.id})">Editar</button><button class="icon" onclick="deleteAluno(${s.id})">Excluir</button></div></div>;
+    return `<div class="card"><div class="grow"><b>${esc(s.name)}</b><small>${daysStr} - ${s.time} -${s.used} feitos / ${pending} faltam</small></div><span class="tag">${s.plan} aulas</span><div class="card-actions"><button class="icon" onclick="openAluno(${s.id})">Editar</button><button class="icon" onclick="deleteAluno(${s.id})">Excluir</button></div></div>`;
   }).join('') || '<div class="notice">Nenhum aluno cadastrado.</div>';
 
-  a.innerHTML = <div class="top"><div><h1>Alunos</h1><p>Cadastre uma vez e a rotina entra na agenda.</p></div><button class="redbtn" onclick="openAluno()">+ Aluno</button></div><div class="list">${listHtml}</div>;
-}
-
-function renderPag(a) {
-  let total = data.students.reduce((acc, s) => acc + s.value, 0);
-  let recebido = data.students.reduce((acc, s) => acc + (data.paid[s.id] ? s.value : 0), 0);
-  let pendente = total - recebido;
-
-  let listHtml = data.students.map(s => {
-    let d = Math.ceil((new Date(s.due) - new Date()) / 86400000);
-    let p = data.paid[s.id];
-    let tagClass = p ? 'green' : (d < 0 ? 'red' : (d <= 7 ? 'yellow' : ''));
-    let tagLabel = p ? 'PAGO' : (d < 0 ? 'VENCIDO' : (d <= 7 ? 'EM BREVE' : 'ATIVO'));
-    let dueDateFormatted = fmt(new Date(s.due + 'T00:00:00'));
-    return <div class="card"><div class="grow"><b>${esc(s.name)}</b><small>R$ ${s.value.toFixed(2).replace('.', ',')} - vencimento ${dueDateFormatted}</small></div><span class="tag ${tagClass}">${tagLabel}</span><button class="icon" onclick="pay(${s.id})">${p ? 'OK' : 'Recebi'}</button></div>;
-  }).join('') || '<div class="notice">Nenhum registro financeiro.</div>';
-
-  a.innerHTML = `<div class="top"><div><h1>Pagamentos</h1><p>Resumo financeiro geral dos pacotes.</p></div></div>
-  <div class="stats-grid">
-   <div class="stat-card"><small>Total Pacotes</small><strong>R$ ${total.toFixed(2).replace('.', ',')}</strong></div>
-   <div class="stat-card" style="border-color:#164c2b;"><small style="color:#8ee5a9;">Recebido</small><strong style="color:#8ee5a9;">R$ ${recebido.toFixed(2).replace('.', ',')}</strong></div>
-   <div class="stat-card" style="border-color:#4b181b;"><small style="color:#ff858b;">Pendente</small><strong style="color:#ff858b;">R$ ${pendente.toFixed(2).replace('.', ',')}</strong></div>
-  </div>
-  <div class="list">${listHtml}</div>`;
+  a.innerHTML = `<div class="top"><div><h1>Alunos</h1><p>Cadastre uma vez e a rotina entra na agenda.</p></div><button class="redbtn" onclick="openAluno()">+ Aluno</button></div><div class="list">${listHtml}</div>`;
 }
 
 function renderOutros(a) {
   let listHtml = data.extras.map(e => {
-    return <div class="card"><div class="grow"><b>${esc(e.title)}</b><small>${fmt(new Date(e.date + 'T00:00:00'))} - ${e.time}</small></div></div>;
+    return `<div class="card"><div class="grow"><b>${esc(e.title)}</b><small>${fmt(new Date(e.date + 'T00:00:00'))} -${e.time}</small></div></div>`;
   }).join('') || '<div class="notice">Nenhum compromisso cadastrado.</div>';
 
-  a.innerHTML = <div class="top"><div><h1>Outros compromissos</h1><p>Futebol, reunioes, consultas e compromissos pessoais.</p></div><button class="redbtn" onclick="openExtra()">+ Adicionar</button></div><div class="list">${listHtml}</div>;
-}
-
-function moveWeek(n) {
-  week.setDate(week.getDate() + n);
-  render();
-}
-
-function toggle(id, sid) {
-  data.checks[id] = data.checks[id] === 'realizada' ? 'agendada' : 'realizada';
-  let s = data.students.find(x => x.id === sid);
-  if (s) {
-    if (data.checks[id] === 'realizada') s.used++;
-    else s.used = Math.max(0, s.used - 1);
-  }
-  save();
-  render();
-}
-
-function pay(id) {
-  data.paid[id] = !data.paid[id];
-  save();
-  render();
-}
-
-function reschedule(sid, date, time, id) {
-  let d = prompt('Nova data (AAAA-MM-DD):', date);
-  let t = prompt('Novo horario (HH:MM):', time);
-  if (d && t) {
-    let s = data.students.find(x => x.id === sid);
-    data.extras.push({
-      id: Date.now(),
-      type: 'extra',
-      title: 'Aula reagendada - ' + (s ? s.name : 'Aluno'),
-      date: d,
-      time: t
-    });
-    data.checks[id] = 'cancelada';
-    save();
-    render();
-  }
+  a.innerHTML = `<div class="top"><div><h1>Outros compromissos</h1><p>Futebol, reunioes, consultas e compromissos pessoais.</p></div><button class="redbtn" onclick="openExtra()">+ Adicionar</button></div><div class="list">${listHtml}</div>`;
 }
 
 function openAluno(id) {
   let s = id ? data.students.find(x => x.id === id) : null;
-  let daysOptions = ['seg', 'ter', 'qua', 'qui', 'sex'].map(x => <label><input type="checkbox" name="${x}" ${s && s.days.includes(x) ? 'checked' : ''}>${x.toUpperCase()}</label>).join('');
+  let daysOptions = ['seg', 'ter', 'qua', 'qui', 'sex'].map(x => `<label><input type="checkbox" name="${x}" ${s && s.days.includes(x) ? 'checked' : ''}>${x.toUpperCase()}</label>`).join('');
 
-  document.getElementById('modal').innerHTML = <div class="modalhead"><h2>${s ? 'Editar aluno' : 'Novo aluno'}</h2><button onclick="closeModal()">X</button></div><form onsubmit="saveAluno(event,${id || 'null'})"><input name="name" placeholder="Nome do aluno" value="${s ? esc(s.name) : ''}" required><div class="two"><input name="plan" type="number" placeholder="Nº de aulas" value="${s ? s.plan : ''}" required><input name="value" type="number" step="0.01" placeholder="Valor R$" value="${s ? s.value : ''}" required></div><input name="due" type="date" value="${s ? s.due : ''}" required><input name="time" type="time" value="${s ? s.time : ''}" required><p>Quais dias?</p><div class="dayspick">${daysOptions}</div><button class="save">${s ? 'Salvar alteracoes' : 'Cadastrar e criar rotina'}</button></form>;
+  document.getElementById('modal').innerHTML = `<div class="modalhead"><h2>${s ? 'Editar aluno' : 'Novo aluno'}</h2><button onclick="closeModal()">X</button></div><form onsubmit="saveAluno(event,${id || 'null'})"><input name="name" placeholder="Nome do aluno" value="${s ? esc(s.name) : ''}" required><div class="two"><input name="plan" type="number" placeholder="Nº de aulas" value="${s ? s.plan : ''}" required><input name="value" type="number" step="0.01" placeholder="Valor R$" value="${s ? s.value : ''}" required></div><input name="due" type="date" value="${s ? s.due : ''}" required><input name="time" type="time" value="${s ? s.time : ''}" required><p>Quais dias?</p><div class="dayspick">${daysOptions}</div><button class="save">${s ? 'Salvar alteracoes' : 'Cadastrar e criar rotina'}</button></form>`;
   openModal();
-}
-
-function saveAluno(e, id) {
-  e.preventDefault();
-  let f = new FormData(e.target);
-  let daysList = ['seg', 'ter', 'qua', 'qui', 'sex'].filter(x => f.get(x));
-  if (id) {
-    let s = data.students.find(x => x.id === id);
-    if (s) {
-      s.name = f.get('name');
-      s.plan = +f.get('plan');
-      s.value = +f.get('value');
-      s.due = f.get('due');
-      s.time = f.get('time');
-      s.days = daysList;
-    }
-  } else {
-    data.students.push({
-      id: Date.now(),
-      name: f.get('name'),
-      plan: +f.get('plan'),
-      used: 0,
-      value: +f.get('value'),
-      due: f.get('due'),
-      time: f.get('time'),
-      days: daysList
-    });
-  }
-  save();
-  closeModal();
-  render();
-}
-
-function deleteAluno(id) {
-  if (confirm('Tem certeza que deseja remover este aluno?')) {
-    data.students = data.students.filter(x => x.id !== id);
-    save();
-    render();
-  }
 }
 
 function openExtra() {
-  document.getElementById('modal').innerHTML = <div class="modalhead"><h2>Novo compromisso</h2><button onclick="closeModal()">X</button></div><form onsubmit="addExtra(event)"><input name="title" placeholder="Ex.: Futebol, reunicao, consulta..." required><div class="two"><input name="date" type="date" value="${iso(today)}" required><input name="time" type="time" required></div><button class="save">Adicionar a agenda</button></form>;
+  document.getElementById('modal').innerHTML = `<div class="modalhead"><h2>Novo compromisso</h2><button onclick="closeModal()">X</button></div><form onsubmit="addExtra(event)"><input name="title" placeholder="Ex.: Futebol, reunicao, consulta..." required><div class="two"><input name="date" type="date" value="${iso(today)}" required><input name="time" type="time" required></div><button class="save">Adicionar a agenda</button></form>`;
   openModal();
 }
-
-function addExtra(e) {
-  e.preventDefault();
-  let f = new FormData(e.target);
-  data.extras.push({
-    id: Date.now(),
-    type: 'extra',
-    title: f.get('title'),
-    date: f.get('date'),
-    time: f.get('time')
-  });
-  save();
-  closeModal();
-  render();
-}
-
-function openModal() {
-  document.getElementById('overlay').classList.add('show');
-}
-
-function closeModal() {
-  document.getElementById('overlay').classList.remove('show');
-}
-
-function resetApp() {
-  if (confirm('Isso vai redefinir os dados para o padrao inicial. Continuar?')) {
-    localStorage.removeItem('rafaPlanner');
-    location.reload();
-  }
-}
-
-render();
-</script>
-</body>
-</html>
