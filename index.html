@@ -4,384 +4,216 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111111">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rafa Planner">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png" type="image/png">
 <title>Rafa Planner</title>
-<link rel="icon" type="image/png" href="icon.png?v=2">
-<link rel="apple-touch-icon" href="icon.png?v=2">
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#0b0b0d;color:#f5f5f5;font:14px system-ui,-apple-system,Segoe UI,sans-serif}
-button,input,select{font:inherit}
-button{cursor:pointer}
-header{height:64px;background:#111;border-bottom:1px solid #29292d;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:5}
-.logo{display:flex;align-items:center;gap:9px;font-weight:800}
-.logo b{background:#d71920;border-radius:9px;padding:10px;font-style:italic}
-.logo small{display:block;color:#e21b23;font-size:8px;letter-spacing:1.5px}
-main{max-width:900px;margin:auto;padding:18px 14px 92px}
-.top{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.top h1{font-size:23px;margin:0}
-.top p{color:#777;margin:3px 0 15px;font-size:12px}
+*{box-sizing:border-box}body{margin:0;background:#0b0b0d;color:#f5f5f5;font:14px system-ui,-apple-system,Segoe UI,sans-serif}
+button,input{font:inherit}button{cursor:pointer}
+header{height:64px;background:#111;border-bottom:1px solid #29292d;display:flex;align-items:center;padding:0 16px;position:sticky;top:0;z-index:5}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800}.logo b{background:#d71920;border-radius:9px;padding:10px;font-style:italic}.logo small{display:block;color:#e21b23;font-size:8px;letter-spacing:1.5px}
+main{max-width:900px;margin:auto;padding:18px 14px 92px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center}.top h1{font-size:23px;margin:0}.top p{color:#777;margin:3px 0 15px;font-size:12px}
 .redbtn{background:#d71920;color:#fff;border:0;border-radius:9px;padding:10px 13px;font-weight:700}
-.week{display:flex;align-items:center;justify-content:space-between;background:#151518;border:1px solid #29292d;border-radius:10px;padding:6px;margin-bottom:10px}
-.week button{background:transparent;border:0;color:#fff;padding:6px}
-.days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.day{background:#151518;border:1px solid #29292d;border-radius:11px;min-height:230px;padding:9px}
-.dayhead{display:flex;justify-content:space-between;border-bottom:1px solid #29292d;padding-bottom:8px;margin-bottom:2px}
-.dayhead b{color:#999;font-size:11px}
-.dayhead strong{font-size:19px}
-.class{display:flex;gap:6px;align-items:center;padding:9px 1px;border-bottom:1px solid #29292d}
-.time{color:#e52a31;font-size:11px;width:36px}
-.who{flex:1;min-width:0}
-.who b{display:block;font-size:13px}
-.who small{color:#777;font-size:9px}
-.icon{border:0;background:#29292d;color:#aaa;border-radius:7px;padding:6px 10px}
-.done{opacity:.45}
-.done .icon.ok{background:#17843b;color:#fff}
-.free{text-align:center;color:#555;padding:35px 0}
-.notice{margin-top:10px;background:#151518;border:1px solid #29292d;border-radius:10px;padding:10px;color:#999;font-size:11px;display:flex;justify-content:space-between;align-items:center}
-nav{position:fixed;bottom:0;left:0;right:0;height:65px;background:#111;border-top:1px solid #29292d;display:flex;justify-content:center;z-index:6}
-nav button{flex:1;max-width:180px;background:transparent;border:0;color:#777;font-size:11px;font-weight:600}
-nav button.active{color:#fff;background:#d71920;margin:7px;border-radius:8px}
-.list{display:grid;gap:8px}
-.card{background:#151518;border:1px solid #29292d;border-radius:11px;padding:13px;display:flex;align-items:center;gap:10px}
-.card .grow{flex:1}
-.card b{font-size:14px}
-.card small{display:block;color:#777;margin-top:3px}
-.tag{font-size:9px;border-radius:15px;padding:5px 7px;background:#29292d;color:#aaa}
-.tag.green{background:#164c2b;color:#8ee5a9}
-.tag.yellow{background:#493d18;color:#f1d477}
-.tag.red{background:#4b181b;color:#ff858b}
-.card-actions{display:flex;gap:6px;align-items:center}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-.stat-card{background:#151518;border:1px solid #29292d;border-radius:10px;padding:10px;text-align:center}
-.stat-card small{color:#777;display:block;font-size:10px}
-.stat-card strong{font-size:15px;margin-top:2px;display:block}
-.summary-box{background:#151518;border:1px solid #29292d;border-radius:10px;padding:10px;margin-bottom:10px}
-.summary-box h3{margin:0 0 8px 0;font-size:12px;color:#d71920;text-transform:uppercase;letter-spacing:0.5px}
-.summary-item{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #222;font-size:11px}
-.summary-item:last-child{border-bottom:0}
-.overlay{position:fixed;inset:0;background:#000c;display:none;align-items:flex-end;justify-content:center;z-index:20}
-.overlay.show{display:flex}
-.modal{background:#151518;border:1px solid #333;border-radius:16px 16px 0 0;width:min(600px,100%);padding:18px;max-height:90vh;overflow:auto}
-.modalhead{display:flex;justify-content:space-between}
-.modalhead button{background:none;border:0;color:#aaa}
-.modal input,.modal select{width:100%;padding:11px;background:#0e0e10;border:1px solid #37373b;color:#fff;border-radius:8px;margin-bottom:9px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.dayspick{display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 13px}
-.dayspick label{background:#29292d;border-radius:7px;padding:8px;color:#bbb}
-.dayspick input{width:auto;margin:0 4px 0 0}
-.save{width:100%;background:#d71920;color:#fff;border:0;border-radius:9px;padding:12px;font-weight:700}
-@media(max-width:700px){.days{grid-template-columns:1fr}.day{min-height:auto}.dayhead{position:sticky;top:64px;background:#151518;z-index:2}.top h1{font-size:21px}.week b{font-size:11px}}
+.week{display:flex;align-items:center;justify-content:space-between;background:#151518;border:1px solid #29292d;border-radius:10px;padding:6px;margin-bottom:10px}.week button{background:transparent;border:0;color:#fff;padding:6px}
+.days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.day{background:#151518;border:1px solid #29292d;border-radius:11px;min-height:230px;padding:9px}.dayhead{display:flex;justify-content:space-between;border-bottom:1px solid #29292d;padding-bottom:8px;margin-bottom:2px}.dayhead b{color:#999;font-size:11px}.dayhead strong{font-size:19px}
+.class{display:flex;gap:6px;align-items:center;padding:9px 1px;border-bottom:1px solid #29292d}.time{color:#e52a31;font-size:11px;width:36px}.who{flex:1;min-width:0}.who b{display:block;font-size:13px}.who small{color:#777;font-size:9px}.icon{border:0;background:#29292d;color:#aaa;border-radius:7px;padding:6px}.done{opacity:.45}.done .ok{background:#17843b;color:#fff}.cancelled{opacity:.45;text-decoration:line-through}.free{text-align:center;color:#555;padding:35px 0}
+.notice{margin-top:10px;background:#151518;border:1px solid #29292d;border-radius:10px;padding:10px;color:#999;font-size:11px}
+nav{position:fixed;bottom:0;left:0;right:0;height:65px;background:#111;border-top:1px solid #29292d;display:flex;justify-content:center;z-index:6}nav button{flex:1;max-width:180px;background:transparent;border:0;color:#777;font-size:10px}nav button.active{color:#fff;background:#d71920;margin:7px;border-radius:8px}
+.list{display:grid;gap:8px}.card{background:#151518;border:1px solid #29292d;border-radius:11px;padding:13px;display:flex;align-items:center;gap:10px}.grow{flex:1}.card b{font-size:14px}.card small{display:block;color:#777;margin-top:3px}.tag{font-size:9px;border-radius:15px;padding:5px 7px;background:#29292d;color:#aaa}.tag.green{background:#164c2b;color:#8ee5a9}.tag.yellow{background:#493d18;color:#f1d477}.tag.red{background:#4b181b;color:#ff858b}
+.overlay{position:fixed;inset:0;background:#000c;display:none;align-items:flex-end;justify-content:center;z-index:20}.overlay.show{display:flex}.modal{background:#151518;border:1px solid #333;border-radius:16px 16px 0 0;width:min(600px,100%);padding:18px;max-height:90vh;overflow:auto}.modalhead{display:flex;justify-content:space-between}.modalhead button{background:none;border:0;color:#aaa}.modal input{width:100%;padding:11px;background:#0e0e10;border:1px solid #37373b;color:#fff;border-radius:8px;margin-bottom:9px}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dayspick{display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 13px}.dayspick label{background:#29292d;border-radius:7px;padding:8px;color:#bbb}.dayspick input{width:auto;margin:0 4px 0 0}.save{width:100%;background:#d71920;color:#fff;border:0;border-radius:9px;padding:12px;font-weight:700}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.actions button{padding:11px;border:0;border-radius:9px;background:#29292d;color:#fff}.actions .danger{background:#4b181b;color:#ff858b}
+.agenda-list{display:grid;gap:12px}.student-agenda{background:#151518;border:1px solid #29292d;border-radius:12px;padding:13px}.student-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.student-head h2{font-size:17px;margin:0}.student-meta{color:#888;font-size:11px;margin-top:3px}.progress{font-size:10px;color:#bbb}.date-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.date-row{display:flex;align-items:center;justify-content:space-between;gap:7px;background:#0f0f11;border:1px solid #28282c;border-radius:9px;padding:8px 9px}.date-main b{font-size:12px}.date-main small{display:block;color:#777;font-size:9px;margin-top:2px}.status{border:0;border-radius:7px;padding:6px 8px;font-size:10px;font-weight:700;white-space:nowrap}.status.pendente{background:#493d18;color:#f1d477}.status.realizada{background:#164c2b;color:#8ee5a9}.status.adiada{background:#29292d;color:#bbb}.status.recuperacao{background:#3d263f;color:#e8b5f0}.status.cancelada{background:#4b181b;color:#ff858b}.subtle{color:#777;font-size:11px}.modal label.field{display:block;color:#aaa;font-size:11px;margin:2px 0 5px}.modal input[type=date],.modal input[type=time],.modal input[type=number],.modal input[type=text]{width:100%}.status-menu{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.status-menu button{padding:11px;border:0;border-radius:9px;background:#29292d;color:#fff}.status-menu .green{background:#164c2b}.status-menu .yellow{background:#493d18}.status-menu .purple{background:#3d263f}.status-menu .red{background:#4b181b}.recovery-box{margin-top:9px;padding:9px;border-left:3px solid #a45ab0;background:#211923;border-radius:7px;color:#cda7d4;font-size:10px}@media(max-width:700px){.date-grid{grid-template-columns:1fr}.days{grid-template-columns:1fr}.day{min-height:auto}.dayhead{position:sticky;top:64px;background:#151518;z-index:2}.top h1{font-size:21px}.week b{font-size:11px}}
 </style>
 </head>
 <body>
 <header><div class="logo"><b>RT</b><span>RAFA PLANNER<small>TREINO PERSONALIZADO</small></span></div></header>
 <main id="app"></main>
 <nav>
-<button id="navAgenda" onclick="show('agenda')">Agenda</button>
-<button id="navAlunos" onclick="show('alunos')">Alunos</button>
-<button id="navPag" onclick="show('pagamentos')">Pagamentos</button>
-<button id="navOutros" onclick="show('outros')">Outros</button>
+<button id="navAgenda" onclick="show('agenda')">📅<br>Agenda</button>
+<button id="navAlunos" onclick="show('alunos')">👤<br>Alunos</button>
+<button id="navPag" onclick="show('pagamentos')">💰<br>Pagamentos</button>
+<button id="navOutros" onclick="show('outros')">📌<br>Outros</button>
 </nav>
 <div id="overlay" class="overlay"><div class="modal" id="modal"></div></div>
 <script>
-const K = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
-const N = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
-const today = new Date(); 
-today.setHours(0, 0, 0, 0);
+const K=['dom','seg','ter','qua','qui','sex','sab'],N=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const today=new Date();today.setHours(0,0,0,0);
+let data=JSON.parse(localStorage.getItem('rafaPlanner')||'null')||{
+students:[
+{id:1,name:'João',plan:8,used:2,value:190,due:'2026-09-10',days:['seg','qua'],time:'06:00'},
+{id:2,name:'Maria',plan:8,used:4,value:190,due:'2026-09-05',days:['ter','qui'],time:'07:00'}
+],checks:{},paid:{},rescheduled:{},extras:[]};
+data.rescheduled=data.rescheduled||{};
+let view='agenda',week=monday(today);
 
-let data;
-try {
-  data = JSON.parse(localStorage.getItem('rafaPlanner') || 'null');
-} catch (e) {
-  data = null;
+function save(){localStorage.setItem('rafaPlanner',JSON.stringify(data))}
+function monday(d){let x=new Date(d);x.setDate(x.getDate()-((x.getDay()+6)%7));return x}
+function iso(d){return d.toISOString().slice(0,10)}
+function fmt(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function days(){return[1,2,3,4,5].map(i=>{let d=new Date(week);d.setDate(d.getDate()+i);return d})}
+
+function items(d){
+ let key=K[d.getDay()],date=iso(d),arr=[];
+ data.students.forEach(s=>{
+   if(!s.days.includes(key))return;
+   let id=s.id+'-'+date,r=data.rescheduled[id];
+   if(r&&r.date!==date)return;
+   arr.push({type:'aula',id,student:s,time:r?r.time:s.time,date,status:data.checks[id]||'agendada',reagendada:!!r});
+ });
+ Object.entries(data.rescheduled).forEach(([id,r])=>{
+   if(r.date!==date)return;
+   let sid=+id.split('-')[0],s=data.students.find(x=>x.id===sid);
+   if(s&&s.days.includes(K[new Date(r.date+'T00:00:00').getDay()]))
+     arr.push({type:'aula',id,student:s,time:r.time,date,status:data.checks[id]||'agendada',reagendada:true});
+ });
+ data.extras.filter(e=>e.date===date).forEach(e=>arr.push(e));
+ return arr.sort((a,b)=>a.time.localeCompare(b.time))
 }
 
-if (!data || typeof data !== 'object') {
-  data = {
-    students: [
-      { id: 1, name: 'Joao', plan: 8, used: 2, value: 190, due: '2026-09-10', days: ['seg', 'qua'], time: '06:00' },
-      { id: 2, name: 'Maria', plan: 8, used: 4, value: 190, due: '2026-09-05', days: ['ter', 'qui'], time: '07:00' }
-    ],
-    checks: {},
-    paid: {},
-    extras: []
-  };
+function show(v){view=v;render()}
+function render(){
+ document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+ document.getElementById(view==='agenda'?'navAgenda':view==='alunos'?'navAlunos':view==='pagamentos'?'navPag':'navOutros').classList.add('active');
+ let a=document.getElementById('app');
+ if(view==='agenda')renderAgenda(a);else if(view==='alunos')renderAlunos(a);else if(view==='pagamentos')renderPag(a);else renderOutros(a);
 }
 
-if (!Array.isArray(data.students)) data.students = [];
-if (!data.checks || typeof data.checks !== 'object') data.checks = {};
-if (!data.paid || typeof data.paid !== 'object') data.paid = {};
-if (!Array.isArray(data.extras)) data.extras = [];
-
-data.students.forEach(s => {
-  s.used = typeof s.used === 'number' ? s.used : 0;
-  s.plan = typeof s.plan === 'number' ? s.plan : 0;
-  s.value = typeof s.value === 'number' ? s.value : 0;
-  s.days = Array.isArray(s.days) ? s.days : [];
-  s.due = s.due || '2026-09-10';
-  s.time = s.time || '08:00';
-});
-
-let view = 'agenda';
-let week = monday(today);
-
-function save() {
-  try {
-    localStorage.setItem('rafaPlanner', JSON.stringify(data));
-  } catch (e) {}
-}
-
-function monday(d) {
-  let x = new Date(d);
-  x.setDate(x.getDate() - ((x.getDay() + 6) % 7));
-  return x;
-}
-
-function iso(d) {
-  return d.toISOString().slice(0, 10);
-}
-
-function fmt(d) {
-  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-}
-
-function esc(s) {
-  return String(s || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
-}
-
-function days() {
-  return [1, 2, 3, 4, 5].map(i => {
-    let d = new Date(week);
-    d.setDate(d.getDate() + i);
-    return d;
-  });
-}
-
-function items(d) {
-  let key = K[d.getDay()];
-  let arr = [];
-  data.students.forEach(s => {
-    if (s.days.includes(key)) {
-      arr.push({
-        type: 'aula',
-        id: s.id + '-' + iso(d),
-        student: s,
-        time: s.time,
-        date: iso(d),
-        status: data.checks[s.id + '-' + iso(d)] || 'agendada'
-      });
-    }
-  });
-  data.extras.filter(e => e.date === iso(d)).forEach(e => arr.push(e));
-  return arr.sort((a, b) => a.time.localeCompare(b.time));
-}
-
-function show(v) {
-  view = v;
-  render();
-}
-
-function render() {
-  document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
-  const navEl = document.getElementById(view === 'agenda' ? 'navAgenda' : view === 'alunos' ? 'navAlunos' : view === 'pagamentos' ? 'navPag' : 'navOutros');
-  if (navEl) navEl.classList.add('active');
-  const app = document.getElementById('app');
-  if (view === 'agenda') renderAgenda(app);
-  else if (view === 'alunos') renderAlunos(app);
-  else if (view === 'pagamentos') renderPag(app);
-  else renderOutros(app);
-}
-
-function renderAgenda(a) {
-  let ds = days();
-  let summaryHtml = data.students.map(s => {
-    let pending = Math.max(0, s.plan - s.used);
-    return `<div class="summary-item"><span><b>${esc(s.name)}</b> (${s.plan} aulas)</span><span><span style="color:#8ee5a9;">OK: ${s.used}</span> | <span style="color:#ff858b;">Falta: ${pending}</span></span></div>`;
-  }).join('');
-
-  let daysHtml = ds.map(d => {
-    let dayItems = items(d);
-    let itemsHtml = dayItems.map(item => {
-      if (item.type === 'extra') {
-        return `<div class="class"><span class="time">${item.time}</span><div class="who"><b>${esc(item.title)}</b><small>Compromisso</small></div></div>`;
-      }
-      return `<div class="class ${item.status === 'realizada' ? 'done' : ''}"><span class="time">${item.time}</span><div class="who"><b>${esc(item.student.name)}</b><small>${item.status === 'realizada' ? 'Realizado' : 'Pendente'} (${item.student.used}/${item.student.plan})</small></div><button class="icon ok" onclick="toggle('${item.id}',${item.student.id})">OK</button><button class="icon" onclick="reschedule(${item.student.id},'${item.date}','${item.time}','${item.id}')">Adiar</button></div>`;
-    }).join('') || '<div class="free">Livre</div>';
-
-    return `<section class="day"><div class="dayhead"><b>${N[d.getDay()]}</b><strong>${d.getDate()}</strong></div>${itemsHtml}</section>`;
-  }).join('');
-
-  a.innerHTML = `<div class="top"><div><h1>Minha agenda</h1><p>Acompanhe treinos pendentes e realizados.</p></div><button class="redbtn" onclick="openExtra()">+ Compromisso</button></div>
-  <div class="summary-box"><h3>Situacao dos Pacotes</h3>${summaryHtml || '<small style="color:#777;">Nenhum aluno cadastrado.</small>'}</div>
-  <div class="week"><button onclick="moveWeek(-7)">&lt;</button><b>${fmt(ds[0])} — ${fmt(ds[4])}</b><button onclick="moveWeek(7)">&gt;</button></div>
-  <div class="days">${daysHtml}</div>
-  <div class="notice"><span>Aula realizada: toque em OK.</span><button onclick="resetApp()" style="background:none;border:0;color:#ff858b;font-size:10px;text-decoration:underline;">Redefinir Dados</button></div>`;
-}
-
-function renderAlunos(a) {
-  let listHtml = data.students.map(s => {
-    let daysStr = s.days.map(x => x.toUpperCase()).join(' / ');
-    let pending = Math.max(0, s.plan - s.used);
-    return `<div class="card"><div class="grow"><b>${esc(s.name)}</b><small>${daysStr} - ${s.time} - ${s.used} feitos / ${pending} faltam</small></div><span class="tag">${s.plan} aulas</span><div class="card-actions"><button class="icon" onclick="openAluno(${s.id})">Editar</button><button class="icon" onclick="deleteAluno(${s.id})">Excluir</button></div></div>`;
-  }).join('') || '<div class="notice">Nenhum aluno cadastrado.</div>';
-
-  a.innerHTML = `<div class="top"><div><h1>Alunos</h1><p>Cadastre uma vez e a rotina entra na agenda.</p></div><button class="redbtn" onclick="openAluno()">+ Aluno</button></div><div class="list">${listHtml}</div>`;
-}
-
-function renderPag(a) {
-  let total = data.students.reduce((acc, s) => acc + s.value, 0);
-  let recebido = data.students.reduce((acc, s) => acc + (data.paid[s.id] ? s.value : 0), 0);
-  let pendente = total - recebido;
-
-  let listHtml = data.students.map(s => {
-    let d = Math.ceil((new Date(s.due) - new Date()) / 86400000);
-    let p = data.paid[s.id];
-    let tagClass = p ? 'green' : (d < 0 ? 'red' : (d <= 7 ? 'yellow' : ''));
-    let tagLabel = p ? 'PAGO' : (d < 0 ? 'VENCIDO' : (d <= 7 ? 'EM BREVE' : 'ATIVO'));
-    let dueDateFormatted = fmt(new Date(s.due + 'T00:00:00'));
-    return `<div class="card"><div class="grow"><b>${esc(s.name)}</b><small>R$ ${s.value.toFixed(2).replace('.', ',')} - vencimento ${dueDateFormatted}</small></div><span class="tag ${tagClass}">${tagLabel}</span><button class="icon" onclick="pay(${s.id})">${p ? 'OK' : 'Recebi'}</button></div>`;
-  }).join('') || '<div class="notice">Nenhum registro financeiro.</div>';
-
-  a.innerHTML = `<div class="top"><div><h1>Pagamentos</h1><p>Resumo financeiro geral dos pacotes.</p></div></div>
-  <div class="stats-grid">
-   <div class="stat-card"><small>Total Pacotes</small><strong>R$ ${total.toFixed(2).replace('.', ',')}</strong></div>
-   <div class="stat-card" style="border-color:#164c2b;"><small style="color:#8ee5a9;">Recebido</small><strong style="color:#8ee5a9;">R$ ${recebido.toFixed(2).replace('.', ',')}</strong></div>
-   <div class="stat-card" style="border-color:#4b181b;"><small style="color:#ff858b;">Pendente</small><strong style="color:#ff858b;">R$ ${pendente.toFixed(2).replace('.', ',')}</strong></div>
-  </div>
-  <div class="list">${listHtml}</div>`;
-}
-
-function renderOutros(a) {
-  let listHtml = data.extras.map(e => {
-    return `<div class="card"><div class="grow"><b>${esc(e.title)}</b><small>${fmt(new Date(e.date + 'T00:00:00'))} - ${e.time}</small></div></div>`;
-  }).join('') || '<div class="notice">Nenhum compromisso cadastrado.</div>';
-
-  a.innerHTML = `<div class="top"><div><h1>Outros compromissos</h1><p>Futebol, reunioes, consultas e compromissos pessoais.</p></div><button class="redbtn" onclick="openExtra()">+ Adicionar</button></div><div class="list">${listHtml}</div>`;
-}
-
-function moveWeek(n) {
-  week.setDate(week.getDate() + n);
-  render();
-}
-
-function toggle(id, sid) {
-  data.checks[id] = data.checks[id] === 'realizada' ? 'agendada' : 'realizada';
-  let s = data.students.find(x => x.id === sid);
-  if (s) {
-    if (data.checks[id] === 'realizada') s.used++;
-    else s.used = Math.max(0, s.used - 1);
+function parseLocalDate(v){return v?new Date(v+'T12:00:00'):null}
+function dateKey(d){return d.toISOString().slice(0,10)}
+function formatLong(v){let d=parseLocalDate(v);return d?d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit'}):''}
+function weekdayKey(v){let d=parseLocalDate(v);return d?K[d.getDay()]:''}
+function generatedDates(s){
+  if(!s.startDate||!Array.isArray(s.days)||!s.days.length)return [];
+  let start=parseLocalDate(s.startDate),out=[],d=new Date(start);let guard=0;
+  while(out.length<s.plan && guard<500){
+    if(s.days.includes(K[d.getDay()]))out.push(dateKey(d));
+    d.setDate(d.getDate()+1);guard++;
   }
-  save();
-  render();
+  return out;
 }
-
-function pay(id) {
-  data.paid[id] = !data.paid[id];
-  save();
-  render();
+function statusFor(s,date){
+  let id=s.id+'-'+date;
+  return data.checks[id]||'pendente';
 }
-
-function reschedule(sid, date, time, id) {
-  let d = prompt('Nova data (AAAA-MM-DD):', date);
-  let t = prompt('Novo horario (HH:MM):', time);
-  if (d && t) {
-    let s = data.students.find(x => x.id === sid);
-    data.extras.push({
-      id: Date.now(),
-      type: 'extra',
-      title: 'Aula reagendada - ' + (s ? s.name : 'Aluno'),
-      date: d,
-      time: t
-    });
-    data.checks[id] = 'cancelada';
-    save();
-    render();
+function getRecoveryFor(s,originalDate){
+  return Object.entries(data.rescheduled||{}).find(([id,r])=>id===s.id+'-'+originalDate&&r&&r.date);
+}
+function agendaDates(s){
+  let dates=generatedDates(s);
+  if(!dates.length){
+    // Compatibility with the original planner: show the current week's scheduled days.
+    return days().filter(d=>s.days.includes(K[d.getDay()])).map(dateKey);
   }
+  return dates.slice(0,Math.max(6,Math.min(14,dates.length)));
+}
+function statusLabel(st){return st==='realizada'?'✓ Concluída':st==='adiada'?'⏸ Adiada':st==='recuperacao'?'↻ Recuperação':st==='cancelada'?'✕ Cancelada':'Pendente'}
+function renderAgenda(a){
+ a.innerHTML=`<div class="top"><div><h1>Agenda</h1><p>Alunos, datas e situação das aulas em um só lugar.</p></div><button class="redbtn" onclick="openAluno()">＋ Aluno</button></div>
+ <div class="agenda-list">${data.students.map(s=>{
+   let dates=agendaDates(s), used=Math.max(0,s.used||0);
+   return `<section class="student-agenda"><div class="student-head"><div><h2>${esc(s.name)}</h2><div class="student-meta">${s.time||'—'} · ${s.plan} aulas · R$ ${Number(s.value||0).toFixed(2).replace('.',',')}</div></div><div class="progress">${used}/${s.plan} concluídas</div></div>
+   <div class="date-grid">${dates.map(date=>{let id=s.id+'-'+date,st=statusFor(s,date),rec=getRecoveryFor(s,date);return `<div class="date-row"><div class="date-main"><b>${formatLong(date)}</b><small>${s.time||''}</small>${rec?`<div class="recovery-box">↳ Recuperação: ${formatLong(rec[1].date)} · ${rec[1].time||s.time}</div>`:''}</div><button class="status ${st}" onclick="openStatus('${id}',${s.id},'${date}')">${statusLabel(st)}</button></div>`}).join('')||'<div class="subtle">Nenhuma data prevista.</div>'}</div></section>`
+ }).join('')||'<div class="notice">Nenhum aluno cadastrado.</div>'}</div>
+ <div class="notice">Toque no status da aula para marcar <b>Concluída</b>, <b>Adiada</b> ou criar uma <b>Recuperação</b>.</div>`;
+}
+function openStatus(id,sid,date){
+ let s=data.students.find(x=>x.id===sid),st=statusFor(s,date);
+ document.getElementById('modal').innerHTML=`<div class="modalhead"><h2>${esc(s.name)} · ${formatLong(date)}</h2><button onclick="closeModal()">✕</button></div><p class="subtle">Escolha a situação desta aula.</p><div class="status-menu">
+ <button class="green" onclick="setStatus('${id}',${sid},'${date}','realizada')">✓ Concluída</button>
+ <button class="yellow" onclick="setStatus('${id}',${sid},'${date}','pendente')">Pendente</button>
+ <button onclick="openRecovery(${sid},'${date}')">⏸ Adiar / Recuperar</button>
+ <button class="red" onclick="setStatus('${id}',${sid},'${date}','cancelada')">✕ Cancelar</button></div>`;
+ openModal()
+}
+function setStatus(id,sid,date,next){
+ let s=data.students.find(x=>x.id===sid),before=data.checks[id]||'pendente';
+ if(before==='realizada'&&next!=='realizada')s.used=Math.max(0,(s.used||0)-1);
+ if(before!=='realizada'&&next==='realizada')s.used=(s.used||0)+1;
+ data.checks[id]=next;save();closeModal();render();
+}
+function openRecovery(sid,date){
+ let s=data.students.find(x=>x.id===sid);document.getElementById('modal').innerHTML=`<div class="modalhead"><h2>Recuperar aula</h2><button onclick="closeModal()">✕</button></div><p class="subtle">A aula de ${formatLong(date)} ficará como <b>Adiada</b> e a nova data aparecerá como recuperação.</p><form onsubmit="createRecovery(event,${sid},'${date}')"><label class="field">Nova data</label><input name="date" type="date" required><label class="field">Horário</label><input name="time" type="time" value="${s.time||''}" required><button class="save" style="margin-top:8px">Salvar recuperação</button></form>`;openModal()
+}
+function createRecovery(e,sid,date){e.preventDefault();let f=new FormData(e.target),id=sid+'-'+date;safeRescheduled();data.rescheduled[id]={date:f.get('date'),time:f.get('time')};data.checks[id]='adiada';save();closeModal();render()}
+function safeRescheduled(){if(!data.rescheduled||typeof data.rescheduled!=='object')data.rescheduled={}}
+
+function renderAlunos(a){
+ a.innerHTML=`<div class="top"><div><h1>Alunos</h1><p>Cadastre uma vez e a rotina entra na agenda.</p></div><button class="redbtn" onclick="openAluno()">＋ Aluno</button></div>
+ <div class="list">${data.students.map(s=>`<div class="card"><div class="grow"><b>${esc(s.name)}</b><small>${s.days.map(x=>x.toUpperCase()).join(' / ')} · ${s.time} · ${Math.max(0,s.plan-s.used)} aulas restantes</small></div>
+ <span class="tag">${s.plan} aulas</span><button class="icon" onclick="openHistorico(${s.id})">📋</button><button class="icon" onclick="openAluno(${s.id})">✏️</button><button class="icon" onclick="deleteAluno(${s.id})">🗑️</button></div>`).join('')||'<div class="notice">Nenhum aluno cadastrado.</div>'}</div>`;
 }
 
-function openAluno(id) {
-  let s = id ? data.students.find(x => x.id === id) : null;
-  let daysOptions = ['seg', 'ter', 'qua', 'qui', 'sex'].map(x => `<label><input type="checkbox" name="${x}" ${s && s.days.includes(x) ? 'checked' : ''}>${x.toUpperCase()}</label>`).join('');
-
-  document.getElementById('modal').innerHTML = `<div class="modalhead"><h2>${s ? 'Editar aluno' : 'Novo aluno'}</h2><button onclick="closeModal()">X</button></div><form onsubmit="saveAluno(event,${id || 'null'})"><input name="name" placeholder="Nome do aluno" value="${s ? esc(s.name) : ''}" required><div class="two"><input name="plan" type="number" placeholder="Nº de aulas" value="${s ? s.plan : ''}" required><input name="value" type="number" step="0.01" placeholder="Valor R$" value="${s ? s.value : ''}" required></div><input name="due" type="date" value="${s ? s.due : ''}" required><input name="time" type="time" value="${s ? s.time : ''}" required><p>Quais dias?</p><div class="dayspick">${daysOptions}</div><button class="save">${s ? 'Salvar alteracoes' : 'Cadastrar e criar rotina'}</button></form>`;
-  openModal();
+function openHistorico(id){
+ let s=data.students.find(x=>x.id===id); if(!s)return;
+ let dates=agendaDates(s), total=s.plan||4, done=dates.filter(d=>statusFor(s,d)==='realizada').length;
+ document.getElementById('modal').innerHTML=`<div class="modalhead"><h2>Histórico · ${esc(s.name)}</h2><button onclick="closeModal()">✕</button></div>
+ <div class="card" style="margin:10px 0"><div class="grow"><b>Pacote de ${total} aulas</b><small>${done}/${total} concluídas · R$ ${Number(s.value||190).toFixed(2).replace('.',',')}</small></div><span class="tag ${done>=total?'green':''}">${done>=total?'PACOTE CONCLUÍDO':done+'/'+total}</span></div>
+ <div class="list">${dates.map(date=>{let st=statusFor(s,date),rec=getRecoveryFor(s,date);return `<div class="card"><div class="grow"><b>${formatLong(date)}</b><small>${st==='realizada'?'Aula concluída':st==='adiada'?'Aula adiada':st==='cancelada'?'Aula cancelada':'Aula pendente'}${rec?` · Recuperação: ${formatLong(rec.date)} às ${rec.time}`:''}</small></div><span class="tag ${st==='realizada'?'green':st==='adiada'?'yellow':st==='cancelada'?'red':''}">${statusLabel(st)}</span></div>`}).join('')}</div>
+ <div class="actions"><button onclick="openAluno(${s.id})">✏️ Editar aluno</button><button class="save" onclick="closeModal()">Fechar</button></div>`; openModal();
 }
 
-function saveAluno(e, id) {
-  e.preventDefault();
-  let f = new FormData(e.target);
-  let daysList = ['seg', 'ter', 'qua', 'qui', 'sex'].filter(x => f.get(x));
-  if (id) {
-    let s = data.students.find(x => x.id === id);
-    if (s) {
-      s.name = f.get('name');
-      s.plan = +f.get('plan');
-      s.value = +f.get('value');
-      s.due = f.get('due');
-      s.time = f.get('time');
-      s.days = daysList;
-    }
-  } else {
-    data.students.push({
-      id: Date.now(),
-      name: f.get('name'),
-      plan: +f.get('plan'),
-      used: 0,
-      value: +f.get('value'),
-      due: f.get('due'),
-      time: f.get('time'),
-      days: daysList
-    });
-  }
-  save();
-  closeModal();
-  render();
+function renderPag(a){
+ a.innerHTML=`<div class="top"><div><h1>Pagamentos</h1><p>Você só precisa marcar quando receber.</p></div></div><div class="list">
+ ${data.students.map(s=>{let d=Math.ceil((new Date(s.due)-new Date())/86400000),p=data.paid[s.id];return`<div class="card"><div class="grow"><b>${esc(s.name)}</b><small>R$ ${s.value.toFixed(2).replace('.',',')} · vencimento ${fmt(new Date(s.due+'T00:00:00'))}</small></div>
+ <span class="tag ${p?'green':d<0?'red':d<=7?'yellow':''}">${p?'PAGO':d<0?'VENCIDO':d<=7?'EM BREVE':'ATIVO'}</span><button class="icon" onclick="pay(${s.id})">${p?'✓':'Recebi'}</button></div>`}).join('')}</div>`;
 }
 
-function deleteAluno(id) {
-  if (confirm('Tem certeza que deseja remover este aluno?')) {
-    data.students = data.students.filter(x => x.id !== id);
-    save();
-    render();
-  }
+function renderOutros(a){
+ a.innerHTML=`<div class="top"><div><h1>Outros compromissos</h1><p>Futebol, reuniões, consultas e compromissos pessoais.</p></div><button class="redbtn" onclick="openExtra()">＋ Adicionar</button></div>
+ <div class="list">${data.extras.map(e=>`<div class="card"><div class="grow"><b>${esc(e.title)}</b><small>${fmt(new Date(e.date+'T00:00:00'))} · ${e.time}</small></div><button class="icon" onclick="deleteExtra(${e.id})">🗑️</button></div>`).join('')||'<div class="notice">Nenhum compromisso cadastrado.</div>'}</div>`;
 }
 
-function openExtra() {
-  document.getElementById('modal').innerHTML = `<div class="modalhead"><h2>Novo compromisso</h2><button onclick="closeModal()">X</button></div><form onsubmit="addExtra(event)"><input name="title" placeholder="Ex.: Futebol, reunicao, consulta..." required><div class="two"><input name="date" type="date" value="${iso(today)}" required><input name="time" type="time" required></div><button class="save">Adicionar a agenda</button></form>`;
-  openModal();
+function moveWeek(n){week.setDate(week.getDate()+n);render()}
+function toggle(id,sid){
+ data.checks[id]=data.checks[id]==='realizada'?'agendada':'realizada';
+ let s=data.students.find(x=>x.id===sid);
+ if(data.checks[id]==='realizada')s.used++;else s.used=Math.max(0,s.used-1);
+ save();render()
 }
+function pay(id){data.paid[id]=!data.paid[id];save();render()}
 
-function addExtra(e) {
-  e.preventDefault();
-  let f = new FormData(e.target);
-  data.extras.push({
-    id: Date.now(),
-    type: 'extra',
-    title: f.get('title'),
-    date: f.get('date'),
-    time: f.get('time')
-  });
-  save();
-  closeModal();
-  render();
+function openReschedule(sid,date,time,id){
+ document.getElementById('modal').innerHTML=`<div class="modalhead"><h2>Reagendar aula</h2><button onclick="closeModal()">✕</button></div>
+ <p style="color:#999">A aula continua vinculada ao aluno. Você não precisa cadastrar novamente.</p>
+ <form onsubmit="reschedule(event,'${id}')"><div class="two"><input name="date" type="date" value="${date}" required><input name="time" type="time" value="${time}" required></div>
+ <div class="actions"><button type="button" class="danger" onclick="cancelAula('${id}')">Cancelar aula</button><button class="save">Reagendar</button></div></form>`;
+ openModal()
 }
+function reschedule(e,id){e.preventDefault();let f=new FormData(e.target);data.rescheduled[id]={date:f.get('date'),time:f.get('time')};data.checks[id]='agendada';save();closeModal();render()}
+function cancelAula(id){data.checks[id]='cancelada';save();closeModal();render()}
 
-function openModal() {
-  document.getElementById('overlay').classList.add('show');
+function openAluno(id){
+ let s=id?data.students.find(x=>x.id===id):null;
+ let startValue=s&&s.startDate?s.startDate:iso(today);
+ document.getElementById('modal').innerHTML=`<div class="modalhead"><h2>${s?'Editar aluno':'Novo aluno'}</h2><button onclick="closeModal()">✕</button></div>
+ <form onsubmit="saveAluno(event,${id||'null'})"><label class="field">Nome</label><input name="name" type="text" placeholder="Nome do aluno" value="${s?esc(s.name):''}" required>
+ <div class="two"><div><label class="field">Pacote (aulas)</label><input name="plan" type="number" min="1" placeholder="14" value="${s?s.plan:4}" required></div><div><label class="field">Valor R$</label><input name="value" type="number" min="0" step="0.01" placeholder="190" value="${s?s.value:190}" required></div></div>
+ <div class="two"><div><label class="field">Início do pacote</label><input name="startDate" type="date" value="${startValue}" required></div><div><label class="field">Horário</label><input name="time" type="time" value="${s?s.time:''}" required></div></div>
+ <label class="field">Dias da semana</label><div class="dayspick">${['seg','ter','qua','qui','sex','sab'].map(x=>`<label><input type="checkbox" name="${x}" ${s&&s.days.includes(x)?'checked':''}>${x.toUpperCase()}</label>`).join('')}</div>
+ <p class="subtle">As datas serão criadas automaticamente até completar o pacote.</p><button class="save">${s?'Salvar alterações':'Cadastrar e criar rotina'}</button></form>`;openModal()
 }
-
-function closeModal() {
-  document.getElementById('overlay').classList.remove('show');
+function saveAluno(e,id){
+ e.preventDefault();let f=new FormData(e.target),days=['seg','ter','qua','qui','sex','sab'].filter(x=>f.get(x));
+ if(!days.length){alert('Escolha pelo menos um dia da semana.');return}
+ let obj={name:f.get('name').trim(),plan:+f.get('plan'),value:+f.get('value'),startDate:f.get('startDate'),time:f.get('time'),days};
+ if(id){let s=data.students.find(x=>x.id===id);Object.assign(s,obj)}else data.students.push({id:Date.now(),...obj,used:0});
+ save();closeModal();render()
 }
-
-function resetApp() {
-  if (confirm('Isso vai redefinir os dados para o padrao inicial. Continuar?')) {
-    localStorage.removeItem('rafaPlanner');
-    location.reload();
-  }
-}
-
+function deleteAluno(id){if(confirm('Tem certeza que deseja remover este aluno?')){data.students=data.students.filter(x=>x.id!==id);save();render()}}
+function openExtra(){document.getElementById('modal').innerHTML=`<div class="modalhead"><h2>Novo compromisso</h2><button onclick="closeModal()">✕</button></div><form onsubmit="addExtra(event)"><input name="title" placeholder="Ex.: Futebol, reunião, consulta..." required><div class="two"><input name="date" type="date" value="${iso(today)}" required><input name="time" type="time" required></div><button class="save">Adicionar à agenda</button></form>`;openModal()}
+function addExtra(e){e.preventDefault();let f=new FormData(e.target);data.extras.push({id:Date.now(),type:'extra',title:f.get('title'),date:f.get('date'),time:f.get('time')});save();closeModal();render()}
+function deleteExtra(id){if(confirm('Excluir este compromisso?')){data.extras=data.extras.filter(e=>e.id!==id);save();render()}}
+function openModal(){document.getElementById('overlay').classList.add('show')}function closeModal(){document.getElementById('overlay').classList.remove('show')}
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal()});
 render();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
+}
 </script>
-</body>
-</html>
+</body></html>
